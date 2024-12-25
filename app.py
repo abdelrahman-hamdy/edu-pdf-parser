@@ -6,8 +6,6 @@ client = OpenAI(api_key="sk-proj-rgnRhp6CL10FMCIiFKblTQcgVjnYz-kG4UvUCS6uMAManTB
 import json
 from io import BytesIO
 
-# IMPORTANT: Make sure this matches your environment variables or secrets!
-
 st.title("PDF to MCQ Extractor (GPT-4)")
 
 uploaded_pdf = st.file_uploader("Upload a PDF file", type=["pdf"])
