@@ -2,7 +2,7 @@ import streamlit as st
 import pdfplumber
 from openai import OpenAI
 
-client = OpenAI(api_key="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")
+client = OpenAI(api_key="sk-rgnRhp6CL10FMCIiFKblTQcgVjnYz-kG4UvUCS6uMAManTBajzV5oa2bThiWARjdSw8yUs_VL7T3BlbkFJ_sM7ZeuTiUp67ss0iu_s4op5BPE4YaP-Xu3kEiiSCYOux8SQ3QvloeaGot3vWMoh3s7buKKN4A")
 import json
 from io import BytesIO
 
