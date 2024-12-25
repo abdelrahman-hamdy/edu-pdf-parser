@@ -1,11 +1,12 @@
 import streamlit as st
 import pdfplumber
-import openai
+from openai import OpenAI
+
+client = OpenAI(api_key="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")
 import json
 from io import BytesIO
 
 # IMPORTANT: Make sure this matches your environment variables or secrets!
-openai.api_key = "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"
 
 st.title("PDF to MCQ Extractor (GPT-4)")
 
@@ -44,15 +45,13 @@ if uploaded_pdf is not None:
             """
 
             try:
-                chapter_resp = openai.ChatCompletion.create(
-                    model="gpt-4",
-                    messages=[
-                        {"role": "system", "content": "You are a helpful assistant."},
-                        {"role": "user", "content": prompt_chapters}
-                    ],
-                    temperature=0.0
-                )
-                chapters_str = chapter_resp.choices[0].message["content"].strip()
+                chapter_resp = client.chat.completions.create(model="gpt-4",
+                messages=[
+                    {"role": "system", "content": "You are a helpful assistant."},
+                    {"role": "user", "content": prompt_chapters}
+                ],
+                temperature=0.0)
+                chapters_str = chapter_resp.choices[0].message.content.strip()
                 st.write("**GPT-4 Raw Chapters Output:**")
                 st.code(chapters_str, language="json")
 
@@ -97,15 +96,13 @@ if uploaded_pdf is not None:
                     {combined_text}
                     """
 
-                    mcq_resp = openai.ChatCompletion.create(
-                        model="gpt-4",
-                        messages=[
-                            {"role": "system", "content": "You are an expert question generator."},
-                            {"role": "user", "content": prompt_mcqs}
-                        ],
-                        temperature=0.7
-                    )
-                    mcq_output_str = mcq_resp.choices[0].message["content"].strip()
+                    mcq_resp = client.chat.completions.create(model="gpt-4",
+                    messages=[
+                        {"role": "system", "content": "You are an expert question generator."},
+                        {"role": "user", "content": prompt_mcqs}
+                    ],
+                    temperature=0.7)
+                    mcq_output_str = mcq_resp.choices[0].message.content.strip()
                     st.write(f"**GPT-4 Raw MCQs for Chapter:** {chapter_title}")
                     st.code(mcq_output_str, language="json")
 
